@@ -10,7 +10,8 @@ interface IProps {
 const Table: FC<IProps> = ({restaurants}) => {
 
     return (
-        <table>
+        <>
+        <table className="restaurant-table">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -22,10 +23,13 @@ const Table: FC<IProps> = ({restaurants}) => {
             </thead>
             <tbody>
                 {restaurants.map((restaurant: Restaurant, i: number, arr: Restaurant[]) => {
-                    return <RestaurantRow restaurant={restaurant} key={i}/>
+                    while (i < 10 ) {
+                        return <RestaurantRow restaurant={restaurant} key={i}/>
+                    }
                 })}
             </tbody>
         </table>
+        </>
     )
 }
 
