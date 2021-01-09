@@ -23,7 +23,6 @@ export const useGetRestaurants = (): [boolean, Restaurant[], string] => {
 
         getData("https://code-challenge.spectrumtoolbox.com/api/restaurants")
         .then((response) => {
-            console.log("got restaurants: ", response)
             setRestaurants(response);
         })
         .catch((err) => {
@@ -35,3 +34,25 @@ export const useGetRestaurants = (): [boolean, Restaurant[], string] => {
 
     return [loading, restaurants, error];
 };
+
+export const useSortRestaurants = (restaurants: Restaurant[], field: string, ascending: boolean): Restaurant[] => {
+    const [sortedRestaurants, setSortedRestaurants] = useState([] as Restaurant[]);
+
+    useEffect(() => {
+        let restaurantArr = restaurants;
+        restaurantArr.sort((a, b) => {
+            let restaurantA = a[field].toUpperCase();
+            let restaurantB = b[field].toUpperCase();
+            let returnValue = 0;
+
+            restaurantA < restaurantB && (returnValue = -1);
+            restaurantA > restaurantB && (returnValue = 1);
+            !ascending && (returnValue = returnValue * -1);
+
+            return returnValue;
+        });
+        setSortedRestaurants(restaurantArr);
+    }, [restaurants, field, ascending])
+
+    return sortedRestaurants;
+}

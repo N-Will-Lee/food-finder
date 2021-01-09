@@ -1,20 +1,31 @@
-import React, { useEffect } from "react";
-import { useGetRestaurants } from "./hooks";
-
+import React, { useEffect, useState } from "react";
+import { useGetRestaurants, useSortRestaurants } from "./hooks";
+import { Restaurant } from "./types";
 
 import "./App.css";
 
 function App() {
+    const [sortBy, setSortBy] = useState({field: "name", ascending: true})
+
+    const [loading, restaurants, error] = useGetRestaurants();
+    const sortedRestaurants = useSortRestaurants(restaurants, sortBy.field, sortBy.ascending);
+
     useEffect(() => {
         document.title = "Food Finder";
     }, []);
 
-    const [loading, restaurants, error] = useGetRestaurants();
+
+
 
 
     return (
         <div className="App">
-            {loading ? <p>Loading</p> : <p>Restaurant Table Here</p>}
+            {loading ? <p>Loading</p> : <p>Sort By:</p>}
+            <button onClick={() => setSortBy({...sortBy, field: "city"})}>field: city</button>
+            <button onClick={() => setSortBy({...sortBy, field: "name"})}>field: name</button>
+            <button onClick={() => setSortBy({...sortBy, ascending: true})}>ascending</button>
+            <button onClick={() => setSortBy({...sortBy, ascending: false})}>descending</button>
+            <button onClick={() => console.log("sorted restaurants: ", sortedRestaurants)}>logem</button>
         </div>
     );
 }
