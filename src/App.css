@@ -2,7 +2,7 @@
   text-align: center;
   display: grid;
   grid-template-columns: 15% 50% 25%;
-  grid-template-rows: 25% 25% auto 10%;
+  grid-template-rows: 75px auto auto 10%;
 }
 .title {
     grid-column-start: 2;
@@ -19,7 +19,7 @@
 .active-filters {
     grid-column-start: 1;
     grid-column-end: 2;
-    grid-row-start: 2;
+    grid-row-start: 3;
     grid-row-end: 4;
 }
 .select-filters {

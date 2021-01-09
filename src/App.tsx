@@ -7,6 +7,7 @@ import "./App.css";
 
 function App() {
     const [sortBy, setSortBy] = useState({field: "name", ascending: true});
+    const [page, setPage] = useState(1)
 
     const [loading, restaurants, error] = useGetRestaurants();
     const sortedRestaurants = useSortRestaurants(restaurants, sortBy.field, sortBy.ascending);
@@ -36,14 +37,14 @@ function App() {
             <section className="active-filters">
                 <h2>Active Filters</h2>
             </section>
-            <Table restaurants={sortedRestaurants} />
+            <Table restaurants={sortedRestaurants} page={page}/>
             <nav className="paging">
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
+                <button onClick={() => setPage(1)}>1</button>
+                <button onClick={() => setPage(2)}>2</button>
+                <button onClick={() => setPage(3)}>3</button>
+                <button onClick={() => setPage(4)}>4</button>
+                <button onClick={() => setPage(5)}>5</button>
+                <button onClick={() => setPage(6)}>6</button>
             </nav>
 
         </div>
