@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useGetRestaurants, useSortRestaurants } from "./hooks";
+import { useGetRestaurants, useSortRestaurants, useGetFilterOptions } from "./hooks";
 import { Restaurant } from "./types";
 import Table from "./Components/Table";
 
@@ -9,8 +9,9 @@ function App() {
     const [sortBy, setSortBy] = useState({field: "name", ascending: true});
     const [page, setPage] = useState(1)
 
-    const [loading, restaurants, filterOptions, error] = useGetRestaurants();
+    const [restaurants, loadingRestaurants, error] = useGetRestaurants();
     const sortedRestaurants = useSortRestaurants(restaurants, sortBy.field, sortBy.ascending);
+    const [filterOptions, loadingFilters] = useGetFilterOptions(restaurants);
 
     useEffect(() => {
         document.title = "Food Finder";
@@ -23,7 +24,7 @@ function App() {
     return (
         <div className="App">
             <h1 className="title">Food Finder</h1>
-            {loading ? <p>Loading</p> : (
+            {loadingRestaurants ? <p>Loading</p> : (
                 <nav className="select-filters">
                     <h2>Sort By: </h2>
                     <button onClick={() => setSortBy({...sortBy, field: "city"})}>field: city</button>

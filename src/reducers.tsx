@@ -26,4 +26,4 @@ export const filterOptionsReducer = (filterOptions: FilterOptions, action: Filte
         default:
             throw new Error();
     }
-  }
+}

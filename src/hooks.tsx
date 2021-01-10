@@ -3,17 +3,16 @@ import { Restaurant, FilterOptions } from "./types";
 import { filterOptionsReducer } from "./reducers";
 
 
-export const useGetRestaurants = (): [boolean, Restaurant[], FilterOptions, string] => {
+export const useGetRestaurants = (): [Restaurant[], boolean, string] => {
 
     const [loading, setLoading] = useState(false);
-    const [restaurants, setRestaurants] = useState([] as Restaurant[])
-    const [filterOptions, dispatchFilterOptions] = useReducer(filterOptionsReducer, { genres: [], states: [], tags: [] } as FilterOptions)
+    const [restaurants, setRestaurants] = useState([] as Restaurant[]);
     const [error, setError] = useState("");
 
     useEffect(() => {
         setLoading(true);
 
-        async function getData(url = '') {
+        const getData = async (url = '') => {
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -26,11 +25,6 @@ export const useGetRestaurants = (): [boolean, Restaurant[], FilterOptions, stri
         getData("https://code-challenge.spectrumtoolbox.com/api/restaurants")
         .then((restaurantsResponse: Restaurant[]) => {
             setRestaurants(restaurantsResponse);
-            for (const {state, genre, tags} of restaurantsResponse) {
-                dispatchFilterOptions({filterType: "states", filtersPayload: state});
-                dispatchFilterOptions({filterType: "genres", filtersPayload: genre});
-                dispatchFilterOptions({filterType: "tags", filtersPayload: tags});
-            }
         })
         .catch((err) => {
             console.log("get restaurants error: ", err);
@@ -39,8 +33,25 @@ export const useGetRestaurants = (): [boolean, Restaurant[], FilterOptions, stri
         .finally(() => setLoading(false))
     }, []);
 
-    return [loading, restaurants, filterOptions, error];
+    return [restaurants, loading, error];
 };
+
+export const useGetFilterOptions = (restaurants: Restaurant[]): [FilterOptions, boolean] => {
+    const [loading, setLoading] = useState(false);
+    const [filterOptions, dispatchFilterOptions] = useReducer(filterOptionsReducer, { genres: [], states: [], tags: [] } as FilterOptions);
+
+    useEffect(() => {
+        setLoading(true);
+        for (const {state, genre, tags} of restaurants) {
+            dispatchFilterOptions({filterType: "states", filtersPayload: state});
+            dispatchFilterOptions({filterType: "genres", filtersPayload: genre});
+            dispatchFilterOptions({filterType: "tags", filtersPayload: tags});
+        }
+    }, [restaurants]);
+
+    return [filterOptions, loading]
+
+}
 
 export const useSortRestaurants = (restaurants: Restaurant[], field: string, ascending: boolean): Restaurant[] => {
     const [sortedRestaurants, setSortedRestaurants] = useState([] as Restaurant[]);
