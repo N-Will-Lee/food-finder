@@ -14,7 +14,15 @@ export type Restaurant = {
     genre: string,
     hours: string,
     attire: string
-    
-    
-
 };
+
+export type FilterOptions = {
+    states: string[],
+    genres: string[],
+    tags: string[]
+};
+
+export type FilterOptionsActions = {
+    filterType: string,
+    filtersPayload: string
+}

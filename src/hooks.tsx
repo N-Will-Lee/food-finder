@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import { Restaurant } from "./types";
+import { useEffect, useState, useReducer } from "react";
+import { Restaurant, FilterOptions } from "./types";
+import { filterOptionsReducer } from "./reducers";
 
 
-export const useGetRestaurants = (): [boolean, Restaurant[], string] => {
+export const useGetRestaurants = (): [boolean, Restaurant[], FilterOptions, string] => {
 
     const [loading, setLoading] = useState(false);
     const [restaurants, setRestaurants] = useState([] as Restaurant[])
+    const [filterOptions, dispatchFilterOptions] = useReducer(filterOptionsReducer, { genres: [], states: [], tags: [] } as FilterOptions)
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -22,8 +24,13 @@ export const useGetRestaurants = (): [boolean, Restaurant[], string] => {
         }
 
         getData("https://code-challenge.spectrumtoolbox.com/api/restaurants")
-        .then((response) => {
-            setRestaurants(response);
+        .then((restaurantsResponse: Restaurant[]) => {
+            setRestaurants(restaurantsResponse);
+            for (const {state, genre, tags} of restaurantsResponse) {
+                dispatchFilterOptions({filterType: "states", filtersPayload: state});
+                dispatchFilterOptions({filterType: "genres", filtersPayload: genre});
+                dispatchFilterOptions({filterType: "tags", filtersPayload: tags});
+            }
         })
         .catch((err) => {
             console.log("get restaurants error: ", err);
@@ -32,7 +39,7 @@ export const useGetRestaurants = (): [boolean, Restaurant[], string] => {
         .finally(() => setLoading(false))
     }, []);
 
-    return [loading, restaurants, error];
+    return [loading, restaurants, filterOptions, error];
 };
 
 export const useSortRestaurants = (restaurants: Restaurant[], field: string, ascending: boolean): Restaurant[] => {

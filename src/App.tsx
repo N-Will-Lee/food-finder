@@ -9,7 +9,7 @@ function App() {
     const [sortBy, setSortBy] = useState({field: "name", ascending: true});
     const [page, setPage] = useState(1)
 
-    const [loading, restaurants, error] = useGetRestaurants();
+    const [loading, restaurants, filterOptions, error] = useGetRestaurants();
     const sortedRestaurants = useSortRestaurants(restaurants, sortBy.field, sortBy.ascending);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ function App() {
                     <button onClick={() => setSortBy({...sortBy, field: "name"})}>field: name</button>
                     <button onClick={() => setSortBy({...sortBy, ascending: true})}>ascending</button>
                     <button onClick={() => setSortBy({...sortBy, ascending: false})}>descending</button>
-                    <button onClick={() => console.log("sorted restaurants: ", sortedRestaurants)}>logem</button>
+                    <button onClick={() => console.log("filterOptions: ", filterOptions)}>show filters</button>
                 </nav>
                     )}
 
