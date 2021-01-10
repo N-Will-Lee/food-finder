@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import { useGetRestaurants, useSortRestaurants, useGetFilterOptions } from "./hooks";
+import { filterReducer } from "./reducers";
 import { Restaurant } from "./types";
 import Table from "./Components/Table";
 
@@ -8,6 +9,10 @@ import "./App.css";
 function App() {
     const [sortBy, setSortBy] = useState({field: "name", ascending: true});
     const [page, setPage] = useState(1)
+    const init = () => {
+        return {filters: []};
+    }
+    const [filters, dispatchFilters] = useReducer(filterReducer, []);
 
     const [restaurants, loadingRestaurants, error] = useGetRestaurants();
     const sortedRestaurants = useSortRestaurants(restaurants, sortBy.field, sortBy.ascending);
@@ -16,8 +21,6 @@ function App() {
     useEffect(() => {
         document.title = "Food Finder";
     }, []);
-
-
 
 
 
@@ -30,8 +33,10 @@ function App() {
                     <button onClick={() => setSortBy({...sortBy, field: "city"})}>field: city</button>
                     <button onClick={() => setSortBy({...sortBy, field: "name"})}>field: name</button>
                     <button onClick={() => setSortBy({...sortBy, ascending: true})}>ascending</button>
-                    <button onClick={() => setSortBy({...sortBy, ascending: false})}>descending</button>
+                    <button onClick={() => dispatchFilters({modification: "add", filterPayload: {type: "genre", value: "fusion"}})}>add "fusion" filter</button>
+                    <button onClick={() => dispatchFilters({modification: "reset", filterPayload: {type: "", value: ""}})}>reset filters</button>
                     <button onClick={() => console.log("filterOptions: ", filterOptions)}>show filters</button>
+                    <button onClick={() => console.log("active filterOptions: ", filters)}>show active filters</button>
                 </nav>
                     )}
 

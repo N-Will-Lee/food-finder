@@ -26,3 +26,13 @@ export type FilterOptionsActions = {
     filterType: string,
     filtersPayload: string
 }
+
+export type Filter = {
+    type: string,
+    value: string
+}
+
+export type FilterActions = {
+    modification: string,
+    filterPayload: Filter
+}

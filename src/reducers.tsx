@@ -1,4 +1,4 @@
-import { Restaurant, FilterOptions, FilterOptionsActions } from "./types";
+import { Restaurant, FilterOptions, FilterOptionsActions, FilterActions, Filter } from "./types";
 
 
 export const filterOptionsReducer = (filterOptions: FilterOptions, action: FilterOptionsActions) => {
@@ -24,6 +24,26 @@ export const filterOptionsReducer = (filterOptions: FilterOptions, action: Filte
 
             return {...filterOptions, tags: filterOptions.tags.concat(newTags)}
         default:
-            throw new Error();
+            return filterOptions;
+    }
+}
+
+export const filterReducer = (filters: Filter[], action: FilterActions) => {
+    switch (action.modification) {
+        case "add":
+            if (!filters.some((activeFilter) => {
+                return activeFilter.type === action.filterPayload.type && activeFilter.value === action.filterPayload.value;
+            })) {
+                filters.push(action.filterPayload);
+            }
+            return filters;
+        case "subtract":
+           return filters.filter((activeFilter) => {
+               return activeFilter.type !== action.filterPayload.type && activeFilter.value !== action.filterPayload.value
+           });
+        case "reset":
+            return [] as Filter[];
+        default:
+            return filters;
     }
 }
