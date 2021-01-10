@@ -25,7 +25,7 @@ const Table: FC<IProps> = ({restaurants, page}) => {
                 </thead>
                 <tbody>
                     {restaurants.map((restaurant: Restaurant, i: number, arr: Restaurant[]) => {
-                        while (i < page * 10 && i > (page * 10)-10 ) {
+                        while (i < page * 10 && i >= (page * 10)-10 ) {
                             return <RestaurantRow restaurant={restaurant} key={i}/>
                         }
                     })}

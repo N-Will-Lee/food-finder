@@ -1,5 +1,5 @@
 import { useEffect, useState, useReducer } from "react";
-import { Restaurant, FilterOptions } from "./types";
+import { Restaurant, FilterOptions, Filter } from "./types";
 import { filterOptionsReducer } from "./reducers";
 
 
@@ -37,8 +37,8 @@ export const useGetRestaurants = (): [Restaurant[], boolean, string] => {
 };
 
 export const useGetFilterOptions = (restaurants: Restaurant[]): [FilterOptions, boolean] => {
-    const [loading, setLoading] = useState(false);
     const [filterOptions, dispatchFilterOptions] = useReducer(filterOptionsReducer, { genres: [], states: [], tags: [] } as FilterOptions);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -53,11 +53,36 @@ export const useGetFilterOptions = (restaurants: Restaurant[]): [FilterOptions, 
 
 }
 
+export const useFilteredRestaurants = (restaurants: Restaurant[], filters: Filter[]): [Restaurant[], boolean] => {
+    const [activeRestaurants, setActiveRestaurants] = useState([] as Restaurant[]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setActiveRestaurants([...restaurants]);
+        if (filters.length > 0) {
+            setLoading(true);
+            let filteredRestaurants = restaurants.filter((restaurant) => {
+                let filterMatch = false
+                for (const filter of filters) {
+                    let relevantRestaurantCategory = restaurant[filter.type.toLowerCase()].toLowerCase();
+                    relevantRestaurantCategory.includes(filter.value.toLowerCase()) && (filterMatch = true);
+                }
+                return filterMatch;
+            })
+            setLoading(false);
+            setActiveRestaurants(filteredRestaurants);
+        }
+
+    },[restaurants, filters])
+
+    return [activeRestaurants, loading]
+}
+
 export const useSortRestaurants = (restaurants: Restaurant[], field: string, ascending: boolean): Restaurant[] => {
     const [sortedRestaurants, setSortedRestaurants] = useState([] as Restaurant[]);
 
     useEffect(() => {
-        let restaurantArr = restaurants;
+        let restaurantArr = [...restaurants];
         restaurantArr.sort((a, b) => {
             let restaurantA = a[field].toUpperCase();
             let restaurantB = b[field].toUpperCase();

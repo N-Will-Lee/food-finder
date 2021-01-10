@@ -31,12 +31,13 @@ export const filterOptionsReducer = (filterOptions: FilterOptions, action: Filte
 export const filterReducer = (filters: Filter[], action: FilterActions) => {
     switch (action.modification) {
         case "add":
+            let newFilters = [...filters];
             if (!filters.some((activeFilter) => {
                 return activeFilter.type === action.filterPayload.type && activeFilter.value === action.filterPayload.value;
             })) {
-                filters.push(action.filterPayload);
+                newFilters.push(action.filterPayload);
             }
-            return filters;
+            return newFilters;
         case "subtract":
            return filters.filter((activeFilter) => {
                return activeFilter.type !== action.filterPayload.type && activeFilter.value !== action.filterPayload.value
@@ -44,6 +45,6 @@ export const filterReducer = (filters: Filter[], action: FilterActions) => {
         case "reset":
             return [] as Filter[];
         default:
-            return filters;
+            return [...filters];
     }
 }
