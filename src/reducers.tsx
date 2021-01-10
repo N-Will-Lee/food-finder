@@ -38,10 +38,14 @@ export const filterReducer = (filters: Filter[], action: FilterActions) => {
                 newFilters.push(action.filterPayload);
             }
             return newFilters;
-        case "subtract":
+        case "remove":
            return filters.filter((activeFilter) => {
                return activeFilter.type !== action.filterPayload.type && activeFilter.value !== action.filterPayload.value
            });
+        case "clear-search":
+            return filters.filter((activeFilter) => {
+                return activeFilter.type !== action.filterPayload.type
+            })
         case "reset":
             return [] as Filter[];
         default:

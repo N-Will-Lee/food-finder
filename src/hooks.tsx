@@ -62,7 +62,7 @@ export const useFilteredRestaurants = (restaurants: Restaurant[], filters: Filte
         if (filters.length > 0) {
             setLoading(true);
             let filteredRestaurants = restaurants.filter((restaurant) => {
-                let filterMatch = false
+                let filterMatch = true;
                 for (const filter of filters) {
                     let relevantRestaurantCategory = '';
                     if (filter.type === "search") {
@@ -70,7 +70,7 @@ export const useFilteredRestaurants = (restaurants: Restaurant[], filters: Filte
                     } else {
                         relevantRestaurantCategory = restaurant[filter.type.toLowerCase()].toLowerCase();
                     }
-                    relevantRestaurantCategory.includes(filter.value.toLowerCase()) && (filterMatch = true);
+                    filterMatch = relevantRestaurantCategory.includes(filter.value.toLowerCase());
                 }
                 return filterMatch;
             })

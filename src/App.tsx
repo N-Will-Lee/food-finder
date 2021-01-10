@@ -9,6 +9,7 @@ import "./App.css";
 function App() {
     const [sortBy, setSortBy] = useState({field: "name", ascending: true});
     const [page, setPage] = useState(1);
+    const [searchBy, setSearchBy] = useState("");
     const [filters, dispatchFilters] = useReducer(filterReducer, []);
 
     const [restaurants, loadingRestaurants, error] = useGetRestaurants();
@@ -20,6 +21,18 @@ function App() {
         document.title = "Food Finder";
     }, []);
 
+    const handleSearchTerm = (e: React.ChangeEvent<any>) => {
+        if (e.target.value === "") {
+            dispatchFilters({modification: "clear-search", filterPayload: {type: "search", value: ''}});
+        }
+        setSearchBy(e.target.value);
+    };
+
+    const handleSearch = () => {
+        dispatchFilters({modification: "clear-search", filterPayload: {type: "search", value: ''}});
+        dispatchFilters({modification: "add", filterPayload: {type: "search", value: searchBy}});
+    }
+
 
 
     return (
@@ -27,11 +40,17 @@ function App() {
             <h1 className="title">Food Finder</h1>
             {loadingRestaurants ? <p>Loading</p> : (
                 <nav className="select-filters">
-                    <h2>Sort By: </h2>
-                    <button onClick={() => setSortBy({...sortBy, field: "city"})}>field: city</button>
-                    <button onClick={() => setSortBy({...sortBy, field: "name"})}>field: name</button>
-                    <button onClick={() => setSortBy({...sortBy, ascending: true})}>ascending</button>
-                    <button onClick={() => setSortBy({...sortBy, ascending: false})}>descending</button>
+                    <label htmlFor="restaurant-search">Search Restaurants:</label>
+                    <input
+                        type="search"
+                        id="restaurant-search"
+                        value={searchBy}
+                        onChange={handleSearchTerm}
+                        aria-label="Search through site content"
+                    >
+                    </input>
+                    <button onClick={handleSearch}>Search</button>
+
                     <button onClick={() => dispatchFilters({modification: "add", filterPayload: {type: "search", value: "ap"}})}>add "sushi" filter</button>
                     <button onClick={() => dispatchFilters({modification: "reset", filterPayload: {type: "", value: ""}})}>reset filters</button>
                     <button onClick={() => console.log("filterOptions: ", filterOptions)}>show filters</button>
@@ -41,6 +60,9 @@ function App() {
 
             <section className="active-filters">
                 <h2>Active Filters</h2>
+                {filters.map((filter, i) => {
+                    return <button key={i} onClick={() => dispatchFilters({modification: "remove", filterPayload: {type: filter.type, value: filter.value}})}>{filter.type} - {filter.value} X</button>
+                })}
             </section>
             <Table restaurants={sortedRestaurants} page={page}/>
             <nav className="paging">
