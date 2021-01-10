@@ -64,7 +64,12 @@ export const useFilteredRestaurants = (restaurants: Restaurant[], filters: Filte
             let filteredRestaurants = restaurants.filter((restaurant) => {
                 let filterMatch = false
                 for (const filter of filters) {
-                    let relevantRestaurantCategory = restaurant[filter.type.toLowerCase()].toLowerCase();
+                    let relevantRestaurantCategory = '';
+                    if (filter.type === "search") {
+                        relevantRestaurantCategory = `${restaurant.name},${restaurant.city},${restaurant.genre}`.toLowerCase();
+                    } else {
+                        relevantRestaurantCategory = restaurant[filter.type.toLowerCase()].toLowerCase();
+                    }
                     relevantRestaurantCategory.includes(filter.value.toLowerCase()) && (filterMatch = true);
                 }
                 return filterMatch;

@@ -32,7 +32,7 @@ function App() {
                     <button onClick={() => setSortBy({...sortBy, field: "name"})}>field: name</button>
                     <button onClick={() => setSortBy({...sortBy, ascending: true})}>ascending</button>
                     <button onClick={() => setSortBy({...sortBy, ascending: false})}>descending</button>
-                    <button onClick={() => dispatchFilters({modification: "add", filterPayload: {type: "genre", value: "sushi"}})}>add "sushi" filter</button>
+                    <button onClick={() => dispatchFilters({modification: "add", filterPayload: {type: "search", value: "ap"}})}>add "sushi" filter</button>
                     <button onClick={() => dispatchFilters({modification: "reset", filterPayload: {type: "", value: ""}})}>reset filters</button>
                     <button onClick={() => console.log("filterOptions: ", filterOptions)}>show filters</button>
                     <button onClick={() => console.log("active filterOptions: ", filters)}>show active filters</button>
