@@ -16,7 +16,7 @@ export const useGetRestaurants = (): [Restaurant[], boolean, string] => {
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    "Authorization": "Api-Key q3MNxtfep8Gt"
+                    "Authorization": `${process.env.REACT_APP_API_KEY}`
                 }
             });
             return response.json();
