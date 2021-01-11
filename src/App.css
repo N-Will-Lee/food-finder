@@ -2,7 +2,6 @@
   text-align: center;
   display: grid;
   grid-template-columns: 200px auto;
-  grid-template-rows: 75px 50px 440px;
   grid-template-rows: 75px 50px minmax(440px, 1fr) 20px;
   column-gap: 10px;
   row-gap: 15px;
