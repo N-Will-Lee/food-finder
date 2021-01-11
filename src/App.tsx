@@ -4,6 +4,8 @@ import { filterReducer } from "./reducers";
 import Table from "./Components/Table/Table";
 
 import "./App.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 
 function App() {
@@ -122,7 +124,16 @@ function App() {
                 <h2>Active Filters</h2>
                 {filters.map((filter, i) => {
                     if (filter.type !== "search") {
-                        return <button key={i} onClick={() => dispatchFilters({modification: "remove", filterPayload: {type: filter.type, value: filter.value}})}>{filter.type} - {filter.value} X</button>
+                        return (
+                            <button
+                                className="filter-button"
+                                key={i}
+                                onClick={() => dispatchFilters({modification: "remove", filterPayload: {type: filter.type, value: filter.value}})}
+                            >
+                                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                <span>{filter.value}</span>
+                            </button>
+                        )
                     }
                 })}
             </section>
