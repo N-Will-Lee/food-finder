@@ -109,7 +109,9 @@ function App() {
             <section className="active-filters">
                 <h2>Active Filters</h2>
                 {filters.map((filter, i) => {
-                    return <button key={i} onClick={() => dispatchFilters({modification: "remove", filterPayload: {type: filter.type, value: filter.value}})}>{filter.type} - {filter.value} X</button>
+                    if (filter.type !== "search") {
+                        return <button key={i} onClick={() => dispatchFilters({modification: "remove", filterPayload: {type: filter.type, value: filter.value}})}>{filter.type} - {filter.value} X</button>
+                    }
                 })}
             </section>
             <Table restaurants={sortedRestaurants} page={page}/>
