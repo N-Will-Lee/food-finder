@@ -70,7 +70,9 @@ export const useFilteredRestaurants = (restaurants: Restaurant[], filters: Filte
                     } else {
                         relevantRestaurantCategory = restaurant[filter.type.toLowerCase()].toLowerCase();
                     }
-                    filterMatch = relevantRestaurantCategory.includes(filter.value.toLowerCase());
+                    if (!relevantRestaurantCategory.includes(filter.value.toLowerCase())) {
+                        filterMatch = false;
+                    }
                 }
                 return filterMatch;
             })

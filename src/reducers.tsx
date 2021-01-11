@@ -8,21 +8,21 @@ export const filterOptionsReducer = (filterOptions: FilterOptions, action: Filte
             let statesArr: string[] = filterOptions.states;
             !filterOptions.states.includes(state) && (statesArr.push(state));
 
-            return {...filterOptions, states: statesArr}
+            return {...filterOptions, states: statesArr.sort()}
         case 'genres':
             let genresArr: string[] = action.filtersPayload.split(',')
             let newGenres = genresArr.filter((genre) => {
                 return !filterOptions.genres.includes(genre);
             });
 
-            return {...filterOptions, genres: filterOptions.genres.concat(newGenres)}
+            return {...filterOptions, genres: filterOptions.genres.concat(newGenres).sort()}
         case 'tags':
             let tagsArr: string[] = action.filtersPayload.split(',')
             let newTags = tagsArr.filter((tag) => {
                 return !filterOptions.tags.includes(tag)
             });
 
-            return {...filterOptions, tags: filterOptions.tags.concat(newTags)}
+            return {...filterOptions, tags: filterOptions.tags.concat(newTags).sort()}
         default:
             return filterOptions;
     }
@@ -40,7 +40,7 @@ export const filterReducer = (filters: Filter[], action: FilterActions) => {
             return newFilters;
         case "remove":
            return filters.filter((activeFilter) => {
-               return activeFilter.type !== action.filterPayload.type && activeFilter.value !== action.filterPayload.value
+               return activeFilter.value !== action.filterPayload.value;
            });
         case "clear-search":
             return filters.filter((activeFilter) => {

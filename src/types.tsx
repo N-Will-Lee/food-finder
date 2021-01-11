@@ -17,8 +17,9 @@ export type Restaurant = {
 };
 
 export type FilterOptions = {
-    states: string[],
+    [key: string]: any,
     genres: string[],
+    states: string[],
     tags: string[]
 };
 
