@@ -1,13 +1,19 @@
-thead tr th {
-    font: 700;
+.restaurant-table {
+    grid-area: 3/2/4/3;
+    display:table;
+    border-spacing: 10px;
+    width: 100%
 }
-thead {
-    margin-bottom: 10px;
+thead tr th {
+    padding: 20px;
+    text-decoration-line:underline;
+    text-decoration-color: #004c94;
 }
 tbody {
     text-align: left;
 }
 tbody tr th {
     justify-self: start;
+    font-weight: normal;
 }
 

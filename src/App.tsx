@@ -4,12 +4,15 @@ import { filterReducer } from "./reducers";
 import Table from "./Components/Table/Table";
 
 import "./App.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 
 function App() {
     const [sortBy, setSortBy] = useState({field: "name", ascending: true});
     const [page, setPage] = useState(1);
     const [searchBy, setSearchBy] = useState("");
+    const [activeSearchTerm, setActiveSearchTerm] = useState("");
     const [selectedFilterCategory, setSelectedFilterCategory] = useState("default");
     const [selectedFilterValue, setSelectedFilterValue] = useState("default");
     const [displayedFilterValues, setDisplayedFilterValues] = useState([] as string[]);
@@ -47,6 +50,7 @@ function App() {
     const handleSearchTerm = (e: React.ChangeEvent<any>) => {
         if (e.target.value === "") {
             dispatchFilters({modification: "clear-search", filterPayload: {type: "search", value: ''}});
+            setActiveSearchTerm("");
         }
         setSearchBy(e.target.value);
     };
@@ -62,6 +66,7 @@ function App() {
         if (searchBy.length > 0) {
             dispatchFilters({modification: "clear-search", filterPayload: {type: "search", value: ''}});
             dispatchFilters({modification: "add", filterPayload: {type: "search", value: searchBy}});
+            setActiveSearchTerm(searchBy);
         }
     };
 
@@ -80,49 +85,65 @@ function App() {
         <div className="App">
             <h1 className="title">Food Finder</h1>
             {loadingRestaurants ? <p>Loading</p> : (
-                <nav className="select-filters">
-                    <form className="search-form">
-                        <input
-                            type="search"
-                            id="restaurant-search"
-                            placeholder="name, city, or genre"
-                            value={searchBy}
-                            onChange={handleSearchTerm}
-                            onKeyDown={handleEnter}
-                            aria-label="Search through site content"
-                        >
-                        </input>
-                        <button onClick={handleSearch}>Search</button>
-                    </form>
-                    <form className="filters-form">
-                        <select onChange={handleFilterCategory} value={selectedFilterCategory}>
-                            <option key={0} value="default">Filter By:</option>
-                            <option key={1} value="state">State</option>
-                            <option key={2} value="genre">Genre</option>
-                            <option key={3} value="tags">Tag</option>
-                            <option key={4} value="attire">Attire</option>
-                        </select>
-                        <select onChange={handleFilterValue} value={selectedFilterValue}>
-                            {selectedFilterCategory === "default" ? (
-                                <option value="default">Choose Filter Type</option>
-                            ) : (
-                                <option value="default">Choose</option>
-                            )}
-                            {displayedFilterValues && (
-                                displayedFilterValues.map((option, i) => {
-                                    return <option key={i} value={option}>{option}</option>
-                                })
-                            )}
-                        </select>
-                    </form>
-                </nav>
+                <section className="filter-row">
+                    <nav className="filter-inputs">
+                        <form className="search-form">
+                            <input
+                                type="search"
+                                id="restaurant-search"
+                                placeholder="name, city, or genre"
+                                value={searchBy}
+                                onChange={handleSearchTerm}
+                                onKeyDown={handleEnter}
+                                aria-label="Search through site content"
+                            >
+                            </input>
+                            <button onClick={handleSearch}>Search</button>
+                        </form>
+                        <form className="filters-form">
+                            <select className="filter-categories" onChange={handleFilterCategory} value={selectedFilterCategory}>
+                                <option key={0} value="default">Filter By:</option>
+                                <option key={1} value="state">State</option>
+                                <option key={2} value="genre">Genre</option>
+                                <option key={3} value="tags">Tag</option>
+                                <option key={4} value="attire">Attire</option>
+                            </select>
+                            <select onChange={handleFilterValue} value={selectedFilterValue}>
+                                {selectedFilterCategory === "default" ? (
+                                    <option value="default">Choose Filter Type</option>
+                                ) : (
+                                    <option value="default">Choose</option>
+                                )}
+                                {displayedFilterValues && (
+                                    displayedFilterValues.map((option, i) => {
+                                        return <option key={i} value={option}>{option}</option>
+                                    })
+                                )}
+                            </select>
+                        </form>
+                    </nav>
+                    {activeSearchTerm ? (
+                        <span className="active-search-term">Showing results for <em className="search-term">{activeSearchTerm}</em></span>
+                    ) : (
+                        <span>no search term active</span>
+                    )}
+                </section>
             )}
 
             <section className="active-filters">
                 <h2>Active Filters</h2>
                 {filters.map((filter, i) => {
                     if (filter.type !== "search") {
-                        return <button key={i} onClick={() => dispatchFilters({modification: "remove", filterPayload: {type: filter.type, value: filter.value}})}>{filter.type} - {filter.value} X</button>
+                        return (
+                            <button
+                                className="filter-button"
+                                key={i}
+                                onClick={() => dispatchFilters({modification: "remove", filterPayload: {type: filter.type, value: filter.value}})}
+                            >
+                                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                <span>{filter.value}</span>
+                            </button>
+                        )
                     }
                 })}
             </section>
