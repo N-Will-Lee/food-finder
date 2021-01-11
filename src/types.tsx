@@ -20,7 +20,8 @@ export type FilterOptions = {
     [key: string]: any,
     genres: string[],
     states: string[],
-    tags: string[]
+    tags: string[],
+    attire: string[]
 };
 
 export type FilterOptionsActions = {

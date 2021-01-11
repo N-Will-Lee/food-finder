@@ -37,15 +37,16 @@ export const useGetRestaurants = (): [Restaurant[], boolean, string] => {
 };
 
 export const useGetFilterOptions = (restaurants: Restaurant[]): [FilterOptions, boolean] => {
-    const [filterOptions, dispatchFilterOptions] = useReducer(filterOptionsReducer, { genres: [], states: [], tags: [] } as FilterOptions);
+    const [filterOptions, dispatchFilterOptions] = useReducer(filterOptionsReducer, { genres: [], states: [], tags: [], attire: [] } as FilterOptions);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
-        for (const {state, genre, tags} of restaurants) {
+        for (const {state, genre, tags, attire} of restaurants) {
             dispatchFilterOptions({filterType: "states", filtersPayload: state});
             dispatchFilterOptions({filterType: "genres", filtersPayload: genre});
             dispatchFilterOptions({filterType: "tags", filtersPayload: tags});
+            dispatchFilterOptions({filterType: "attire", filtersPayload: attire});
         }
     }, [restaurants]);
 

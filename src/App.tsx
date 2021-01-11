@@ -10,7 +10,7 @@ function App() {
     const [sortBy, setSortBy] = useState({field: "name", ascending: true});
     const [page, setPage] = useState(1);
     const [searchBy, setSearchBy] = useState("");
-    const [selectedFilterCategory, setSelectedFilterCategory] = useState("");
+    const [selectedFilterCategory, setSelectedFilterCategory] = useState("default");
     const [selectedFilterValue, setSelectedFilterValue] = useState("default");
     const [displayedFilterValues, setDisplayedFilterValues] = useState([] as string[]);
     const [filters, dispatchFilters] = useReducer(filterReducer, []);
@@ -35,7 +35,11 @@ function App() {
             case "tags":
                 setDisplayedFilterValues(filterOptions.tags);
                 return;
+            case "attire":
+                setDisplayedFilterValues(filterOptions.attire);
+                return;
             default:
+                setDisplayedFilterValues([]);
                 return;
         }
     }, [selectedFilterCategory]);
@@ -86,20 +90,21 @@ function App() {
                     </input>
                     <button onClick={handleSearch}>Search</button>
                     <select onChange={handleFilterCategory} value={selectedFilterCategory}>
-                        <option value="default">Filter By:</option>
-                        <option value="state">State</option>
-                        <option value="genre">Genre</option>
-                        <option value="tags">Tag</option>
+                        <option key={0} value="default">Filter By:</option>
+                        <option key={1} value="state">State</option>
+                        <option key={2} value="genre">Genre</option>
+                        <option key={3} value="tags">Tag</option>
+                        <option key={4} value="attire">Attire</option>
                     </select>
                     <select onChange={handleFilterValue} value={selectedFilterValue}>
-                        {!selectedFilterCategory ? (
+                        {selectedFilterCategory === "default" ? (
                             <option value="default">Choose Filter Type</option>
                         ) : (
                             <option value="default">Choose</option>
                         )}
                         {displayedFilterValues && (
-                            displayedFilterValues.map((option) => {
-                                return <option value={option}>{option}</option>
+                            displayedFilterValues.map((option, i) => {
+                                return <option key={i} value={option}>{option}</option>
                             })
                         )}
                     </select>
