@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
-import { Restaurant } from '../types';
-import RestaurantRow from './RestaurantRow';
-
+import { Restaurant } from '../../types';
+import RestaurantRow from '../RestaurantRow';
+import './Table.css';
 
 interface IProps {
     restaurants: Restaurant[],

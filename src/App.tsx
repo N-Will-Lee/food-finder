@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import { useGetRestaurants, useSortRestaurants, useGetFilterOptions, useFilteredRestaurants } from "./hooks";
 import { filterReducer } from "./reducers";
-import Table from "./Components/Table";
+import Table from "./Components/Table/Table";
 
 import "./App.css";
 
@@ -78,36 +78,40 @@ function App() {
             <h1 className="title">Food Finder</h1>
             {loadingRestaurants ? <p>Loading</p> : (
                 <nav className="select-filters">
-                    <input
-                        type="search"
-                        id="restaurant-search"
-                        placeholder="name, city, or genre"
-                        value={searchBy}
-                        onChange={handleSearchTerm}
-                        onKeyDown={handleEnter}
-                        aria-label="Search through site content"
-                    >
-                    </input>
-                    <button onClick={handleSearch}>Search</button>
-                    <select onChange={handleFilterCategory} value={selectedFilterCategory}>
-                        <option key={0} value="default">Filter By:</option>
-                        <option key={1} value="state">State</option>
-                        <option key={2} value="genre">Genre</option>
-                        <option key={3} value="tags">Tag</option>
-                        <option key={4} value="attire">Attire</option>
-                    </select>
-                    <select onChange={handleFilterValue} value={selectedFilterValue}>
-                        {selectedFilterCategory === "default" ? (
-                            <option value="default">Choose Filter Type</option>
-                        ) : (
-                            <option value="default">Choose</option>
-                        )}
-                        {displayedFilterValues && (
-                            displayedFilterValues.map((option, i) => {
-                                return <option key={i} value={option}>{option}</option>
-                            })
-                        )}
-                    </select>
+                    <form className="search-form">
+                        <input
+                            type="search"
+                            id="restaurant-search"
+                            placeholder="name, city, or genre"
+                            value={searchBy}
+                            onChange={handleSearchTerm}
+                            onKeyDown={handleEnter}
+                            aria-label="Search through site content"
+                        >
+                        </input>
+                        <button onClick={handleSearch}>Search</button>
+                    </form>
+                    <form className="filters-form">
+                        <select onChange={handleFilterCategory} value={selectedFilterCategory}>
+                            <option key={0} value="default">Filter By:</option>
+                            <option key={1} value="state">State</option>
+                            <option key={2} value="genre">Genre</option>
+                            <option key={3} value="tags">Tag</option>
+                            <option key={4} value="attire">Attire</option>
+                        </select>
+                        <select onChange={handleFilterValue} value={selectedFilterValue}>
+                            {selectedFilterCategory === "default" ? (
+                                <option value="default">Choose Filter Type</option>
+                            ) : (
+                                <option value="default">Choose</option>
+                            )}
+                            {displayedFilterValues && (
+                                displayedFilterValues.map((option, i) => {
+                                    return <option key={i} value={option}>{option}</option>
+                                })
+                            )}
+                        </select>
+                    </form>
                 </nav>
             )}
 

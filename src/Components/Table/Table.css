@@ -1,0 +1,13 @@
+thead tr th {
+    font: 700;
+}
+thead {
+    margin-bottom: 10px;
+}
+tbody {
+    text-align: left;
+}
+tbody tr th {
+    justify-self: start;
+}
+
