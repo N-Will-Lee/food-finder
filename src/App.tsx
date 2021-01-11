@@ -53,13 +53,16 @@ function App() {
 
     const handleEnter = (e: React.KeyboardEvent<any>) => {
         if (e.key === "Enter") {
-            handleSearch();
+            handleSearch(e);
         }
     };
 
-    const handleSearch = () => {
-        dispatchFilters({modification: "clear-search", filterPayload: {type: "search", value: ''}});
-        dispatchFilters({modification: "add", filterPayload: {type: "search", value: searchBy}});
+    const handleSearch = (e: React.ChangeEvent<any>) => {
+        e.preventDefault();
+        if (searchBy.length > 0) {
+            dispatchFilters({modification: "clear-search", filterPayload: {type: "search", value: ''}});
+            dispatchFilters({modification: "add", filterPayload: {type: "search", value: searchBy}});
+        }
     };
 
     const handleFilterCategory = (e: React.ChangeEvent<any>) => {
