@@ -46,7 +46,7 @@ button:hover, select:hover {
     box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.3);
 }
 input:focus, select:focus {
-    outline-color: red;
+    outline-color: #f66200;
 }
 input {
     border-color: #004c94;
@@ -64,6 +64,16 @@ input {
 }
 .active-search-term em {
     font-weight: 700;
+}
+.clear-search {
+    height: 1.1rem;
+    margin-left: 10px;
+    font-weight: bold;
+    font-size:12px;
+    background-color: #004c94;
+}
+.clear-search:focus {
+    outline-color:red;
 }
 .active-filters {
     grid-area: 3/1/4/2;

@@ -70,6 +70,12 @@ function App() {
         }
     };
 
+    const handleClearSearch = () => {
+        dispatchFilters({modification: "clear-search", filterPayload: {type: "search", value: ''}});
+        setActiveSearchTerm("");
+        setSearchBy("");
+    }
+
     const handleFilterCategory = (e: React.ChangeEvent<any>) => {
         setSelectedFilterCategory(e.target.value);
     };
@@ -122,10 +128,8 @@ function App() {
                             </select>
                         </form>
                     </nav>
-                    {activeSearchTerm ? (
-                        <span className="active-search-term">Showing results for <em className="search-term">{activeSearchTerm}</em></span>
-                    ) : (
-                        <span>no search term active</span>
+                    {activeSearchTerm && (
+                        <span className="active-search-term">Showing results for <em className="search-term">{activeSearchTerm}</em><button className="clear-search" onClick={() => handleClearSearch()}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button></span>
                     )}
                 </section>
             )}
