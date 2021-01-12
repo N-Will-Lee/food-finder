@@ -38,3 +38,8 @@ export type FilterActions = {
     modification: string,
     filterPayload: Filter
 }
+
+export type sortByOptions = {
+    field: string;
+    ascending: boolean;
+}
