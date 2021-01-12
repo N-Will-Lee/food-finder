@@ -87,11 +87,6 @@ input {
 .filter-button span {
     margin-left: 20px;
 }
-.paging {
-    grid-area: 4/2/5/3;
-    display: flex;
-    justify-content: start;
-}
 .search-form {
     margin-right: 50px;
 }

@@ -1,5 +1,6 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import { Restaurant } from '../../types';
+import "./Paging.css";
 
 
 interface IProps {
@@ -9,11 +10,17 @@ interface IProps {
 }
 
 const Paging: FC<IProps> = ({restaurants, rowCount, setPage}) => {
+    const [activeButton, setActiveButton] = useState(1);
+    const handleClick = (idx: number) => {
+        setPage(idx/10 % 10+1);
+        setActiveButton(idx);
+    }
+
     return (
         <nav className="paging">
             {restaurants.map((restaurant, i) => {
                 if (i % 10 === 0 ){
-                    return <button key={i} onClick={() => setPage(i/10 % 10+1)}>{i/10 % 10+1}</button>
+                    return <button className={activeButton === i ? "active-page" : ""} key={i} onClick={() => handleClick(i)}>{i/10 % 10+1}</button>
                 }
             })}
         </nav>
