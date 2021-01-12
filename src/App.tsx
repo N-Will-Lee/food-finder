@@ -98,7 +98,7 @@ function App() {
                         <input
                             type="search"
                             id="restaurant-search"
-                            placeholder="Search name, city, or genre"
+                            placeholder="name, city, or genre"
                             value={searchBy}
                             onChange={handleSearchTerm}
                             onKeyDown={handleEnter}
