@@ -14,7 +14,7 @@ const RestaurantRow: FC<IProps> = ({restaurant}) => {
             <th>{restaurant.city}</th>
             <th>{restaurant.state}</th>
             <th>{restaurant.telephone}</th>
-            <th>{restaurant.genres}</th>
+            <th>{restaurant.genre.replaceAll(",", ", ")}</th>
         </tr>
     )
 }
