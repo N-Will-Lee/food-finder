@@ -1,19 +1,47 @@
 .restaurant-table {
     grid-area: 3/2/4/3;
+}
+table {
+    grid-area: 3/2/4/3;
     display:table;
     border-spacing: 10px;
-    width: 100%
+    table-layout: fixed;
+    width: 95%;
+    border-collapse: collapse;
 }
-thead tr th {
-    padding: 20px;
-    text-decoration-line:underline;
-    text-decoration-color: #004c94;
-}
-tbody {
+thead th, tfoot th, tfoot td {
+    font-weight: bold;
+    font-size: 20px;
+    background: #004c94;
+    border: 3px solid #004c94;
+    color: white;
     text-align: left;
 }
-tbody tr th {
-    justify-self: start;
+tbody th {
+    text-align: left;
     font-weight: normal;
 }
-
+thead th:nth-child(1) {
+    width: 25%;
+}
+thead th:nth-child(2) {
+    width: 20%;
+}
+thead th:nth-child(3) {
+    width: 10%;
+}
+thead th:nth-child(4) {
+    width: 20%;
+}
+thead th:nth-child(5) {
+    width: 35%;
+}
+th, td {
+    padding: 5px;
+}
+tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+tbody tr:nth-child(even) {
+    background-color:  #bbbbbb;
+}
