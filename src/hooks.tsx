@@ -3,11 +3,11 @@ import { Restaurant, FilterOptions, Filter } from "./types";
 import { filterOptionsReducer } from "./reducers";
 
 
-export const useGetRestaurants = (): [Restaurant[], boolean, string] => {
+export const useGetRestaurants = (): [Restaurant[], boolean, boolean] => {
 
-    const [loading, setLoading] = useState(false);
-    const [restaurants, setRestaurants] = useState([] as Restaurant[]);
-    const [error, setError] = useState("");
+    const [loading, setLoading] = useState<boolean>(false);
+    const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+    const [error, setError] = useState<boolean>(false);
 
     useEffect(() => {
         setLoading(true);
@@ -28,7 +28,7 @@ export const useGetRestaurants = (): [Restaurant[], boolean, string] => {
         })
         .catch((err) => {
             console.log("get restaurants error: ", err);
-            setError(err);
+            setError(true);
         })
         .finally(() => setLoading(false))
     }, []);
@@ -36,12 +36,10 @@ export const useGetRestaurants = (): [Restaurant[], boolean, string] => {
     return [restaurants, loading, error];
 };
 
-export const useGetFilterOptions = (restaurants: Restaurant[]): [FilterOptions, boolean] => {
+export const useGetFilterOptions = (restaurants: Restaurant[]): FilterOptions => {
     const [filterOptions, dispatchFilterOptions] = useReducer(filterOptionsReducer, { genres: [], states: [], tags: [], attire: [] } as FilterOptions);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
         for (const {state, genre, tags, attire} of restaurants) {
             dispatchFilterOptions({filterType: "states", filtersPayload: state});
             dispatchFilterOptions({filterType: "genres", filtersPayload: genre});
@@ -50,18 +48,16 @@ export const useGetFilterOptions = (restaurants: Restaurant[]): [FilterOptions, 
         }
     }, [restaurants]);
 
-    return [filterOptions, loading]
+    return filterOptions;
 
 }
 
-export const useFilteredRestaurants = (restaurants: Restaurant[], filters: Filter[]): [Restaurant[], boolean] => {
-    const [activeRestaurants, setActiveRestaurants] = useState([] as Restaurant[]);
-    const [loading, setLoading] = useState(false);
+export const useFilteredRestaurants = (restaurants: Restaurant[], filters: Filter[]): Restaurant[] => {
+    const [activeRestaurants, setActiveRestaurants] = useState<Restaurant[]>([]);
 
     useEffect(() => {
         setActiveRestaurants([...restaurants]);
         if (filters.length > 0) {
-            setLoading(true);
             let filteredRestaurants = restaurants.filter((restaurant) => {
                 let filterMatch = true;
                 for (const filter of filters) {
@@ -77,17 +73,16 @@ export const useFilteredRestaurants = (restaurants: Restaurant[], filters: Filte
                 }
                 return filterMatch;
             })
-            setLoading(false);
             setActiveRestaurants(filteredRestaurants);
         }
 
     },[restaurants, filters])
 
-    return [activeRestaurants, loading]
+    return activeRestaurants;
 }
 
 export const useSortRestaurants = (restaurants: Restaurant[], field: string, ascending: boolean): Restaurant[] => {
-    const [sortedRestaurants, setSortedRestaurants] = useState([] as Restaurant[]);
+    const [sortedRestaurants, setSortedRestaurants] = useState<Restaurant[]>([]);
 
     useEffect(() => {
         let restaurantArr = [...restaurants];

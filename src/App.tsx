@@ -21,8 +21,8 @@ function App() {
     const [filters, dispatchFilters] = useReducer(filterReducer, []);
 
     const [restaurants, loadingRestaurants, error] = useGetRestaurants();
-    const [filterOptions, loadingFilters] = useGetFilterOptions(restaurants);
-    const [filteredRestaurants, loadingFilteredRestaurants] = useFilteredRestaurants(restaurants, filters);
+    const filterOptions = useGetFilterOptions(restaurants);
+    const filteredRestaurants = useFilteredRestaurants(restaurants, filters);
     const sortedRestaurants = useSortRestaurants(filteredRestaurants, sortBy.field, sortBy.ascending);
 
     useEffect(() => {
@@ -47,7 +47,7 @@ function App() {
                 setDisplayedFilterValues([]);
                 return;
         }
-    }, [selectedFilterCategory]);
+    }, [selectedFilterCategory, filterOptions]);
 
     const handleSearchTerm = (e: React.ChangeEvent<any>) => {
         if (e.target.value === "") {
@@ -151,7 +151,7 @@ function App() {
                     }
                 })}
             </section>
-            <Table restaurants={sortedRestaurants} page={page} loading={loadingRestaurants} sortBy={sortBy} setSortBy={setSortBy}/>
+            <Table restaurants={sortedRestaurants} page={page} loading={loadingRestaurants} error={error} sortBy={sortBy} setSortBy={setSortBy}/>
             <Paging restaurants={sortedRestaurants} rowCount={10} setPage={setPage}/>
 
 

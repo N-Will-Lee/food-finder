@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import { Restaurant, sortByOptions } from '../../types';
 import RestaurantRow from '../RestaurantRow';
 import './Table.css';
@@ -11,11 +11,12 @@ interface IProps {
     restaurants: Restaurant[],
     page: number,
     loading: boolean,
+    error: boolean,
     sortBy: {field: string, ascending: boolean},
     setSortBy: React.Dispatch<React.SetStateAction<sortByOptions>>
 }
 
-const Table: FC<IProps> = ({restaurants, page, loading, sortBy, setSortBy}) => {
+const Table: FC<IProps> = ({restaurants, page, loading, error, sortBy, setSortBy}) => {
     const handleSort = (fieldStr: string) => {
         if (sortBy.field === fieldStr) {
             setSortBy({...sortBy, ascending: !sortBy.ascending});
@@ -35,7 +36,7 @@ const Table: FC<IProps> = ({restaurants, page, loading, sortBy, setSortBy}) => {
                 height={100}
                 width={100}
             />
-            {!loading && (
+            {!loading && !error && (
                 <table className="restaurant-table">
                     <thead>
                         <tr>
@@ -78,6 +79,9 @@ const Table: FC<IProps> = ({restaurants, page, loading, sortBy, setSortBy}) => {
                         })}
                     </tbody>
                 </table>
+            )}
+            {error && (
+                <span>There was an error loading restaurants</span>
             )}
         </div>
     )
