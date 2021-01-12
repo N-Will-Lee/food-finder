@@ -1,0 +1,13 @@
+.paging {
+    grid-area: 4/2/5/3;
+    display: flex;
+    justify-content: flex-start;
+}
+.paging button {
+    margin: 0px 2px;
+    width: 2rem;
+    height: 2rem;
+}
+.active-page {
+    background-color: #682a01;
+}

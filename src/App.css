@@ -1,38 +1,101 @@
 .App {
   text-align: center;
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: auto auto minmax(500px, 1fr) 30px;
+  column-gap: 10px;
+  row-gap: 5px;
+  padding: 20px;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.title {
+    grid-area: 1/1/2/3;
+    background-color: #004c94;
+    color: white;
+    align-self: center;
+    margin: 0px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h2 {
+    margin: 10px 0px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+nav {
+    margin: 10px 0px;
 }
-
-.App-link {
-  color: #61dafb;
+button {
+    background-color: #f66200;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: transparent;
+    margin: 0px 2px;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input, select {
+    height: 2rem;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: #004c94;
+    background-color: white;
+}
+button:hover, select:hover {
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.3);
+}
+input:focus, select:focus {
+    outline-color: #f66200;
+}
+input {
+    border-color: #004c94;
+}
+.filter-inputs {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.filter-row {
+    grid-area: 2/2/3/3;
+}
+.active-search-term {
+    width: 100%;
+}
+.active-search-term em {
+    font-weight: 700;
+}
+.clear-search {
+    height: 1.1rem;
+    margin-left: 10px;
+    font-weight: bold;
+    font-size:12px;
+    background-color: #004c94;
+}
+.clear-search:focus {
+    outline-color:red;
+}
+.active-filters {
+    grid-area: 3/1/4/2;
+}
+.active-filters button {
+    margin: 3px 10px;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+}
+.filter-button span {
+    margin-left: 20px;
+}
+.search-form {
+    margin-right: 50px;
+}
+.search-form input {
+    margin-right: 15px;
+}
+.filters-form {
+    margin-left: 50px;
+}
+.filters-form select:first-child{
+    margin-right: 15px;
 }
