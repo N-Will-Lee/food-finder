@@ -2,6 +2,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import { useGetRestaurants, useSortRestaurants, useGetFilterOptions, useFilteredRestaurants } from "./hooks";
 import { filterReducer } from "./reducers";
 import Table from "./Components/Table/Table";
+import Paging from "./Components/Paging/Paging";
 
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -149,14 +150,7 @@ function App() {
                 })}
             </section>
             <Table restaurants={sortedRestaurants} page={page} loading={loadingRestaurants}/>
-            <nav className="paging">
-                <button onClick={() => setPage(1)}>1</button>
-                <button onClick={() => setPage(2)}>2</button>
-                <button onClick={() => setPage(3)}>3</button>
-                <button onClick={() => setPage(4)}>4</button>
-                <button onClick={() => setPage(5)}>5</button>
-                <button onClick={() => setPage(6)}>6</button>
-            </nav>
+            <Paging restaurants={sortedRestaurants} rowCount={10} setPage={setPage}/>
 
 
         </div>
