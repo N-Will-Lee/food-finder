@@ -1,4 +1,4 @@
-import { Restaurant, FilterOptions, FilterOptionsActions, FilterActions, Filter } from "./types";
+import { FilterOptions, FilterOptionsActions, FilterActions, Filter } from "./types";
 
 
 export const filterOptionsReducer = (filterOptions: FilterOptions, action: FilterOptionsActions) => {

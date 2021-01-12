@@ -28,7 +28,7 @@ thead th:nth-child(2) {
     width: 20%;
 }
 thead th:nth-child(3) {
-    width: 10%;
+    width: 20%;
 }
 thead th:nth-child(4) {
     width: 20%;
@@ -44,4 +44,15 @@ tbody tr:nth-child(odd) {
 }
 tbody tr:nth-child(even) {
     background-color:  #bbbbbb;
+}
+.sort-arrow {
+    width: auto;
+    height: 1.5rem;
+    background-color: transparent;
+    margin-left: 4px;
+}
+.sort-arrow:hover {
+    outline-color: -webkit-focus-ring-color;
+    outline-style: auto;
+    outline-width: 1px;
 }

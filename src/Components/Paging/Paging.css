@@ -1,7 +1,7 @@
 .paging {
     grid-area: 4/2/5/3;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
 }
 .paging button {
     margin: 0px 2px;

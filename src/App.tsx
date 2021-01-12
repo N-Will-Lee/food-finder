@@ -3,25 +3,26 @@ import { useGetRestaurants, useSortRestaurants, useGetFilterOptions, useFiltered
 import { filterReducer } from "./reducers";
 import Table from "./Components/Table/Table";
 import Paging from "./Components/Paging/Paging";
-
-import "./App.css";
+import { sortByOptions } from "./types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import "./App.css";
 
 
 function App() {
-    const [sortBy, setSortBy] = useState({field: "name", ascending: true});
-    const [page, setPage] = useState(1);
-    const [searchBy, setSearchBy] = useState("");
-    const [activeSearchTerm, setActiveSearchTerm] = useState("");
-    const [selectedFilterCategory, setSelectedFilterCategory] = useState("default");
-    const [selectedFilterValue, setSelectedFilterValue] = useState("default");
-    const [displayedFilterValues, setDisplayedFilterValues] = useState([] as string[]);
+    const [sortBy, setSortBy] = useState<sortByOptions>({field: "name", ascending: true});
+    const [page, setPage] = useState<number>(1);
+    const [searchBy, setSearchBy] = useState<string>("");
+    const [activeSearchTerm, setActiveSearchTerm] = useState<string>("");
+    const [selectedFilterCategory, setSelectedFilterCategory] = useState<string>("default");
+    const [selectedFilterValue, setSelectedFilterValue] = useState<string>("default");
+    const [displayedFilterValues, setDisplayedFilterValues] = useState<string[]>([]);
+
     const [filters, dispatchFilters] = useReducer(filterReducer, []);
 
     const [restaurants, loadingRestaurants, error] = useGetRestaurants();
-    const [filterOptions, loadingFilters] = useGetFilterOptions(restaurants);
-    const [filteredRestaurants, loadingFilteredRestaurants] = useFilteredRestaurants(restaurants, filters);
+    const filterOptions = useGetFilterOptions(restaurants);
+    const filteredRestaurants = useFilteredRestaurants(restaurants, filters);
     const sortedRestaurants = useSortRestaurants(filteredRestaurants, sortBy.field, sortBy.ascending);
 
     useEffect(() => {
@@ -46,7 +47,7 @@ function App() {
                 setDisplayedFilterValues([]);
                 return;
         }
-    }, [selectedFilterCategory]);
+    }, [selectedFilterCategory, filterOptions]);
 
     const handleSearchTerm = (e: React.ChangeEvent<any>) => {
         if (e.target.value === "") {
@@ -102,18 +103,18 @@ function App() {
                             value={searchBy}
                             onChange={handleSearchTerm}
                             onKeyDown={handleEnter}
-                            aria-label="Search through site content"
+                            aria-label="Search restaurants by name, city, or genre"
                         >
                         </input>
                         <button onClick={handleSearch}>Search</button>
                     </form>
                     <form className="filters-form">
                         <select className="filter-categories" onChange={handleFilterCategory} value={selectedFilterCategory}>
-                            <option key={0} value="default">Filter By:</option>
-                            <option key={1} value="state">State</option>
-                            <option key={2} value="genre">Genre</option>
-                            <option key={3} value="tags">Tag</option>
-                            <option key={4} value="attire">Attire</option>
+                            <option value="default">Filter By:</option>
+                            <option value="state">State</option>
+                            <option value="genre">Genre</option>
+                            <option value="tags">Tag</option>
+                            <option value="attire">Attire</option>
                         </select>
                         <select onChange={handleFilterValue} value={selectedFilterValue}>
                             {selectedFilterCategory === "default" ? (
@@ -150,7 +151,7 @@ function App() {
                     }
                 })}
             </section>
-            <Table restaurants={sortedRestaurants} page={page} loading={loadingRestaurants}/>
+            <Table restaurants={sortedRestaurants} page={page} loading={loadingRestaurants} error={error} sortBy={sortBy} setSortBy={setSortBy}/>
             <Paging restaurants={sortedRestaurants} rowCount={10} setPage={setPage}/>
 
 
