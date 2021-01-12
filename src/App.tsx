@@ -90,50 +90,47 @@ function App() {
     return (
         <div className="App">
             <h1 className="title">Food Finder</h1>
-            {loadingRestaurants ? <p>Loading</p> : (
-                <section className="filter-row">
-                    <nav className="filter-inputs">
-                        <form className="search-form">
-                            <input
-                                type="search"
-                                id="restaurant-search"
-                                placeholder="name, city, or genre"
-                                value={searchBy}
-                                onChange={handleSearchTerm}
-                                onKeyDown={handleEnter}
-                                aria-label="Search through site content"
-                            >
-                            </input>
-                            <button onClick={handleSearch}>Search</button>
-                        </form>
-                        <form className="filters-form">
-                            <select className="filter-categories" onChange={handleFilterCategory} value={selectedFilterCategory}>
-                                <option key={0} value="default">Filter By:</option>
-                                <option key={1} value="state">State</option>
-                                <option key={2} value="genre">Genre</option>
-                                <option key={3} value="tags">Tag</option>
-                                <option key={4} value="attire">Attire</option>
-                            </select>
-                            <select onChange={handleFilterValue} value={selectedFilterValue}>
-                                {selectedFilterCategory === "default" ? (
-                                    <option value="default">Choose Filter Type</option>
-                                ) : (
-                                    <option value="default">Choose</option>
-                                )}
-                                {displayedFilterValues && (
-                                    displayedFilterValues.map((option, i) => {
-                                        return <option key={i} value={option}>{option}</option>
-                                    })
-                                )}
-                            </select>
-                        </form>
-                    </nav>
-                    {activeSearchTerm && (
-                        <span className="active-search-term">Showing results for <em className="search-term">{activeSearchTerm}</em><button className="clear-search" onClick={() => handleClearSearch()}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button></span>
-                    )}
-                </section>
-            )}
-
+            <section className="filter-row">
+                <nav className="filter-inputs">
+                    <form className="search-form">
+                        <input
+                            type="search"
+                            id="restaurant-search"
+                            placeholder="name, city, or genre"
+                            value={searchBy}
+                            onChange={handleSearchTerm}
+                            onKeyDown={handleEnter}
+                            aria-label="Search through site content"
+                        >
+                        </input>
+                        <button onClick={handleSearch}>Search</button>
+                    </form>
+                    <form className="filters-form">
+                        <select className="filter-categories" onChange={handleFilterCategory} value={selectedFilterCategory}>
+                            <option key={0} value="default">Filter By:</option>
+                            <option key={1} value="state">State</option>
+                            <option key={2} value="genre">Genre</option>
+                            <option key={3} value="tags">Tag</option>
+                            <option key={4} value="attire">Attire</option>
+                        </select>
+                        <select onChange={handleFilterValue} value={selectedFilterValue}>
+                            {selectedFilterCategory === "default" ? (
+                                <option value="default">Choose Filter Type</option>
+                            ) : (
+                                <option value="default">Choose</option>
+                            )}
+                            {displayedFilterValues && (
+                                displayedFilterValues.map((option, i) => {
+                                    return <option key={i} value={option}>{option}</option>
+                                })
+                            )}
+                        </select>
+                    </form>
+                </nav>
+                {activeSearchTerm && (
+                    <span className="active-search-term">Showing results for <em className="search-term">{activeSearchTerm}</em><button className="clear-search" onClick={() => handleClearSearch()}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button></span>
+                )}
+            </section>
             <section className="active-filters">
                 <h2>Active Filters</h2>
                 {filters.map((filter, i) => {
@@ -151,7 +148,7 @@ function App() {
                     }
                 })}
             </section>
-            <Table restaurants={sortedRestaurants} page={page}/>
+            <Table restaurants={sortedRestaurants} page={page} loading={loadingRestaurants}/>
             <nav className="paging">
                 <button onClick={() => setPage(1)}>1</button>
                 <button onClick={() => setPage(2)}>2</button>
@@ -160,6 +157,7 @@ function App() {
                 <button onClick={() => setPage(5)}>5</button>
                 <button onClick={() => setPage(6)}>6</button>
             </nav>
+
 
         </div>
     );
