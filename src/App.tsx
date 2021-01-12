@@ -94,6 +94,7 @@ function App() {
             <section className="filter-row">
                 <nav className="filter-inputs">
                     <form className="search-form">
+                        <label htmlFor="restaurant-search">Search: </label>
                         <input
                             type="search"
                             id="restaurant-search"

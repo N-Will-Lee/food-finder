@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import { Restaurant } from '../../types';
 import "./Paging.css";
 
@@ -10,7 +10,13 @@ interface IProps {
 }
 
 const Paging: FC<IProps> = ({restaurants, rowCount, setPage}) => {
-    const [activeButton, setActiveButton] = useState(1);
+    const [activeButton, setActiveButton] = useState(0);
+
+    useEffect(() => {
+        setActiveButton(0);
+        setPage(1);
+    }, [restaurants])
+
     const handleClick = (idx: number) => {
         setPage(idx/10 % 10+1);
         setActiveButton(idx);
